@@ -1,26 +1,159 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050816;
+  --foreground: #e2e8f0;
+  --primary-accent: #00f5d4;
+  --secondary-accent: #00ffff;
+  --glass-bg: rgba(5, 8, 22, 0.6);
+  --glass-border: rgba(0, 245, 212, 0.15);
+  --terminal-green: #00ff41;
+  --font-space-grotesk: var(--font-space-grotesk);
+  --font-jetbrains-mono: var(--font-jetbrains-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary-accent);
+  --color-secondary: var(--secondary-accent);
+  --color-terminal: var(--terminal-green);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+  
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-scan: scan 6s linear infinite;
+  --animate-blink: blink 1s step-end infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Custom Cyber Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 245, 212, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 245, 212, 0.6);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  font-family: var(--font-space-grotesk), sans-serif;
 }
+
+/* Glassmorphism Styles */
+.glass-panel {
+  background: rgba(6, 10, 30, 0.65);
+  border: 1px solid rgba(0, 245, 212, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+              inset 0 0 12px rgba(0, 245, 212, 0.05);
+}
+
+.glass-panel-active {
+  border-color: rgba(0, 245, 212, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 245, 212, 0.1),
+              inset 0 0 16px rgba(0, 245, 212, 0.1);
+}
+
+.neon-glow {
+  text-shadow: 0 0 10px rgba(0, 245, 212, 0.5), 0 0 20px rgba(0, 245, 212, 0.2);
+}
+
+.neon-border {
+  box-shadow: 0 0 15px rgba(0, 245, 212, 0.2);
+}
+
+.crt-overlay {
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+}
+
+.scanline::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 245, 212, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 10;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Light Theme Variables & Overrides */
+.light {
+  --background: #f1f5f9;
+  --foreground: #0f172a;
+  --primary-accent: #0284c7;
+  --secondary-accent: #0369a1;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(2, 132, 199, 0.2);
+  --terminal-green: #166534;
+}
+
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(2, 132, 199, 0.2) !important;
+  box-shadow: 0 8px 32px 0 rgba(148, 163, 184, 0.1),
+              inset 0 0 12px rgba(2, 132, 199, 0.02) !important;
+}
+
+.light .glass-panel-active {
+  border-color: rgba(2, 132, 199, 0.5) !important;
+  box-shadow: 0 8px 32px 0 rgba(2, 132, 199, 0.15),
+              inset 0 0 16px rgba(2, 132, 199, 0.05) !important;
+}
+
+.light .text-slate-300 {
+  color: #334155 !important;
+}
+.light .text-slate-200 {
+  color: #1e293b !important;
+}
+.light .text-slate-400 {
+  color: #475569 !important;
+}
+.light .text-white {
+  color: #0f172a !important;
+}
+.light .text-muted {
+  color: #64748b !important;
+}
+.light header span.text-white {
+  color: #0f172a !important;
+}
+.light footer {
+  background: #e2e8f0 !important;
+  border-top: 1px solid rgba(2, 132, 199, 0.15) !important;
+}
+.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(2, 132, 199, 0.3);
+}
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(2, 132, 199, 0.6);
+}
+
